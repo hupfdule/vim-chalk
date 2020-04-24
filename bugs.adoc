@@ -9,6 +9,20 @@
 +
       Calling <Plug>Chalk from `if` to `endif` creates a new fold of level
       1 instead of level 2.
+      +
+      → Ah! It works, but relies on `foldmethod=marker`. If another
+      foldmethod is set, like `syntax` in this case it breaks. Probably
+      because the syntax foldmethod tells chalk there is no fold
+
+- [ ] But chalk breaks my indentation. Putting the `if`/`endif` section
+      into a new fold removes the indentation of the fold start and end
+      line.
+
+      function! s:bar() abort " ............................................ {{{1
+        if 1 == 2
+          echo "nudel"
+        endif
+      endfunction " ........................................................ }}}1
 
 - [ ] <Plug>ChalkUp and <Plug>ChalkDown also operate only on the selection
       and not on the current fold (as the documentation pretends). This
