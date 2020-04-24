@@ -1,0 +1,54 @@
+- [ ] Calculation of the nested fold level is also not working.
+      See this example:
+
+      function! s:bar() abort " ............................................ {{{1
+        if 1 == 2
+          echo "nudel"
+        endif
+      endfunction " ........................................................ }}}1
++
+      Calling <Plug>Chalk from `if` to `endif` creates a new fold of level
+      1 instead of level 2.
+
+- [ ] <Plug>ChalkUp and <Plug>ChalkDown also operate only on the selection
+      and not on the current fold (as the documentation pretends). This
+      again a problem in normal mode. Visual mode mapping works.
+
+- [ ] nmap for <Plug>ChalkDown is not working.
+      vmap _is_ working however.
+      nmap for <Plug>ChalkUp is also working.
+      The command :ChalkDown is _also_ working!
+
+- [ ] Allow specifying chalk_char on fold creation. For example I normally
+      want only spaces for padding. But in some cases, like my ftplugins I
+      want to use folds for extra structuring and like to have visible
+      separator chars.
+      +
+      On fold creation could be problematic, since chalk allows realigning
+      folds. Maybe it would be better to have a buffer local b:chalk_char
+      (and in that respect different chars per level).
+      But how can chalk identify that a file it has read should have a a
+      specific b:chalk_char without having the user specify it every time?
+      → This is not possibe via modeline.
+      Maybe we could get around this by not only using the chalk_char when
+      _adding_ a fold, but not when _aligning_ it. Aligning would then
+      always use the chalk_char that is already there.
+      This has one caveat. What to do when changing the fold level (only
+      problematic when specifying different chalk_chars per level)? Check
+      if the current fill char is the same as the chalk_char for the
+      current level and only then adapting it?
+
+- [ ] Allow different separator chars (chalk_char) for each level. Work on
+      this was already done, but makes problems inside some regex.
+
+- [x] When adding a fold marker chalk is not adding a space between the
+      text and the leading ". This breaks most syntax.
+      +
+      This also happens with vims builtin zf. Maybe there is some vimrc
+      setting breaking it…
+      +
+      → This is specified via `b:chalk_space_before`.
+
+- [x] Why is Chalk leaving me in replace mode after adding a fold?
+      +
+      → This is specified via `b:chalk_edit`.
